@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcMessagingService";
+import "google/api/annotations.proto";
+
+package messaging;
+
+message SendRequest {
+    string message = 1;
+}
+
+message SendResponse {
+    string result = 1;
+    int32 number = 2;
+}
+
+message ReceiveRequest {
+    int32 number = 1;
+}
+
+message ReceiveResonse {
+    string message = 1;
+}
+
+// Опеределим сервис обмена сообщениями
+service Messaging {
+    // Опеределим метод отправки запроса (сообщение) и получения ответа (результат и код):
+    rpc Send (SendRequest) returns (SendResponse) {
+        option (google.api.http) = {
+            post: "/v1/messaging",
+            body: "*"
+        };
+    }
+    // Опеределим метод получения сообщения по номеру:
+    rpc Receive (ReceiveRequest) returns (ReceiveResonse) {
+        option (google.api.http) = {
+            get: "/v1/messaging/{number}",
+        };
+    }
+}
