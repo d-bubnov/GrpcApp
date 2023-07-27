@@ -1,4 +1,4 @@
-using GrpcMessagingService.Services;
+п»їusing GrpcMessagingService.Services;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,15 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 // For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
 
 // Add services to the container.
-// Добавляем поддержку gRPC сервисов:
+// Р”РѕР±Р°РІР»СЏРµРј РїРѕРґРґРµСЂР¶РєСѓ gRPC СЃРµСЂРІРёСЃРѕРІ:
 builder.Services
     .AddGrpc()
     .AddJsonTranscoding();
 
-// Настройка отражения gRPC для автоматического обнаружения контрактов служб (gRPCurl или Postman):
+// РќР°СЃС‚СЂРѕР№РєР° РѕС‚СЂР°Р¶РµРЅРёСЏ gRPC РґР»СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРіРѕ РѕР±РЅР°СЂСѓР¶РµРЅРёСЏ РєРѕРЅС‚СЂР°РєС‚РѕРІ СЃР»СѓР¶Р± (gRPCurl РёР»Рё Postman):
 builder.Services.AddGrpcReflection();
 
-// Добавим Swagger для gRPC:
+// Р”РѕР±Р°РІРёРј Swagger РґР»СЏ gRPC:
 builder.Services.AddGrpcSwagger();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -28,14 +28,14 @@ builder.Services.AddSwaggerGen(c =>
         });
 });
 
-// Добавим логирование в консоль:
+// Р”РѕР±Р°РІРёРј Р»РѕРіРёСЂРѕРІР°РЅРёРµ РІ РєРѕРЅСЃРѕР»СЊ:
 builder.Services.AddLogging(logging => logging.AddConsole());
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    // Добавления конечной точки службы отражения:
+    // Р”РѕР±Р°РІР»РµРЅРёСЏ РєРѕРЅРµС‡РЅРѕР№ С‚РѕС‡РєРё СЃР»СѓР¶Р±С‹ РѕС‚СЂР°Р¶РµРЅРёСЏ:
     app.MapGrpcReflectionService();
 }
 
@@ -43,7 +43,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "gRPC API v1"));
 
 // Configure the HTTP request pipeline.
-// Встраиваем наш gRPC сервис  в систему маршрутизации для обработки запросов:
+// Р’СЃС‚СЂР°РёРІР°РµРј РЅР°С€ gRPC СЃРµСЂРІРёСЃ  РІ СЃРёСЃС‚РµРјСѓ РјР°СЂС€СЂСѓС‚РёР·Р°С†РёРё РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё Р·Р°РїСЂРѕСЃРѕРІ:
 app.MapGrpcService<MessagingService>();
 app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 
